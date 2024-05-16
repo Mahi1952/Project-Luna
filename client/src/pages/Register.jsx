@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Logo from "../asssets/logo.svg";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { registerUser } from "../utils/APIRouters";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -13,10 +15,9 @@ const Register = () => {
     confirmPassword: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      //call api
     } else {
       //handle error
     }

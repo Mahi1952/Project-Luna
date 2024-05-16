@@ -5,7 +5,7 @@ import Logo from "../asssets/logo.svg";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { registerUser } from "../utils/APIRouters";
+import { registerRoute } from "../utils/APIRouters";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -18,15 +18,16 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
+      console.log("invalidation", registerRoute);
       const { username, email, password } = values;
-      const { data } = await axios.post(registerUser, {
+      const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
       });
       console.log(data);
     } else {
-      //handle error
+      console.log("Validation failed");
     }
   };
 
@@ -67,7 +68,7 @@ const Register = () => {
     } else if (confirmPassword !== password) {
       toast("Password not matched", toastEmitter);
       return false;
-    }
+    } else return true;
   };
 
   const handleChange = (event) => {

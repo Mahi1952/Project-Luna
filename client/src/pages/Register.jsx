@@ -15,7 +15,11 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleValidation();
+    if (handleValidation()) {
+      //call api
+    } else {
+      //handle error
+    }
   };
 
   const myIcon = () => <span>🤔</span>;
@@ -33,9 +37,21 @@ const Register = () => {
   };
 
   const handleValidation = () => {
-    const { username, password, confirmPassword } = values;
-    if (username.length < 3) {
+    const { username, email, password, confirmPassword } = values;
+    if (username === "") {
+      toast("Username is required", toastEmitter);
+      return false;
+    } else if (username.length < 3) {
       toast("Username is too short", toastEmitter);
+      return false;
+    } else if (email === "") {
+      toast("Email is required", toastEmitter);
+      return false;
+    } else if (password === "") {
+      toast("Password is required", toastEmitter);
+      return false;
+    } else if (confirmPassword === "") {
+      toast("Confirm Password is required", toastEmitter);
       return false;
     } else if (password.length < 8 || password.length > 16) {
       toast("Password must be 8-16 characters long", toastEmitter);

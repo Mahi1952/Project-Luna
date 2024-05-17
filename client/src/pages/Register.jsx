@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../asssets/logo.svg";
 import { Bounce, ToastContainer, toast } from "react-toastify";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { registerRoute } from "../utils/APIRouters";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -18,14 +19,17 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      console.log("invalidation", registerRoute);
       const { username, email, password } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
       });
-      console.log(data);
+      if (data.status === false) toast(data.message, toastEmitter);
+      if (data.status === true) {
+        localStorage.setItem(" luna user", JSON.stringify(data.user));
+        navigate("/");
+      }
     } else {
       console.log("Validation failed");
     }

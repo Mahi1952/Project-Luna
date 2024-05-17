@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../asssets/logo.svg";
@@ -14,6 +14,9 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+  });
+  useEffect(() => {
+    if (localStorage.getItem(" luna user")) navigate("/");
   });
 
   const handleSubmit = async (event) => {

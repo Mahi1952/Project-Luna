@@ -53,6 +53,9 @@ const Register = () => {
     } else if (username.length < 3) {
       toast("Username is too short", toastEmitter);
       return false;
+    } else if (username.length > 20) {
+      toast("Username is too long", toastEmitter);
+      return false;
     } else if (email === "") {
       toast("Email is required", toastEmitter);
       return false;
@@ -62,8 +65,8 @@ const Register = () => {
     } else if (confirmPassword === "") {
       toast("Confirm Password is required", toastEmitter);
       return false;
-    } else if (password.length < 8 || password.length > 16) {
-      toast("Password must be 8-16 characters long", toastEmitter);
+    } else if (password.length < 8 || password.length > 30) {
+      toast("Password must be 8-30 characters long", toastEmitter);
       return false;
     } else if (confirmPassword !== password) {
       toast("Password not matched", toastEmitter);

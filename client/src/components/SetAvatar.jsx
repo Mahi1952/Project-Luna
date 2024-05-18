@@ -31,14 +31,15 @@ const SetAvatar = () => {
   const [loading, setLoading] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem("luna user");
-  //   if (!user) {
-  //     navigate("/login");
-  //   } else {
-  //     console.log("User found in localStorage during mount:", user);
-  //   }
-  // }, [navigate]);
+  useEffect(() => {
+    const checkLocalStorage = async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        await navigate("/login");
+      }
+    };
+
+    checkLocalStorage();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +63,9 @@ const SetAvatar = () => {
     if (selectedAvatar === undefined) {
       toast.error("Please select an avatar", toastEmitter);
     } else {
-      const user = await JSON.parse(localStorage.getItem("luna user"));
+      const user = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
       const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
         image: avatars[selectedAvatar],
       });
@@ -70,7 +73,10 @@ const SetAvatar = () => {
       if (data.isSet) {
         user.isAvatarImageSet = true;
         user.avatarImage = data.image;
-        localStorage.setItem("luna user", JSON.stringify(user));
+        localStorage.setItem(
+          process.env.REACT_APP_LOCALHOST_KEY,
+          JSON.stringify(user)
+        );
         navigate("/");
       } else {
         toast.error("Error setting avatar. Please try again.", toastEmitter);

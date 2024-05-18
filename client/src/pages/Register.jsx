@@ -16,7 +16,8 @@ const Register = () => {
     confirmPassword: "",
   });
   useEffect(() => {
-    if (localStorage.getItem(" luna user")) navigate("/");
+    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))
+      navigate("/");
   });
 
   const handleSubmit = async (event) => {
@@ -30,7 +31,10 @@ const Register = () => {
       });
       if (data.status === false) toast(data.message, toastEmitter);
       if (data.status === true) {
-        localStorage.setItem(" luna user", JSON.stringify(data.user));
+        localStorage.setItem(
+          process.env.REACT_APP_LOCALHOST_KEY,
+          JSON.stringify(data.user)
+        );
         navigate("/setavatar");
       }
     } else {

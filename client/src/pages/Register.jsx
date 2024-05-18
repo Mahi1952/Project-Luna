@@ -55,22 +55,22 @@ const Register = () => {
   const handleValidation = () => {
     const { username, email, password, confirmPassword } = values;
     if (username === "") {
-      toast("Username is required", toastEmitter);
+      toast("Dont you like a cool Username?", toastEmitter);
       return false;
     } else if (username.length < 3) {
-      toast("Username is too short", toastEmitter);
+      toast("That shot of a Username is not cool", toastEmitter);
       return false;
     } else if (username.length > 20) {
-      toast("Username is too long", toastEmitter);
+      toast("Hold your horses fam, Username is too long", toastEmitter);
       return false;
     } else if (email === "") {
       toast("Email is required", toastEmitter);
       return false;
     } else if (password === "") {
-      toast("Password is required", toastEmitter);
+      toast("Password,PASSWORD is Missing", toastEmitter);
       return false;
     } else if (confirmPassword === "") {
-      toast("Confirm Password is required", toastEmitter);
+      toast("Seriously, ai'nt you forgetting something?", toastEmitter);
       return false;
     } else if (password.length < 8 || password.length > 30) {
       toast("Password must be 8-30 characters long", toastEmitter);
@@ -131,7 +131,7 @@ const Register = () => {
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account? <Link to="/login">Login</Link>
+            Got an acount? Tap this <Link to="/login">Login</Link>
           </span>
         </form>
       </FormContainer>

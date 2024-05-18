@@ -21,7 +21,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { username, email, password } = values;
+      const { username, password } = values;
       const { data } = await axios.post(loginRoute, {
         username,
         password,
@@ -53,10 +53,13 @@ const Login = () => {
   const handleValidation = () => {
     const { username, password } = values;
     if (username === "") {
-      toast("Username and Password is required", toastEmitter);
+      toast("Fam, aint u forgetting the Username and Password", toastEmitter);
       return false;
     } else if (password === "") {
-      toast("Username and Password is required", toastEmitter);
+      toast(
+        "Username and Password, I think, you missed my buddy ",
+        toastEmitter
+      );
       return false;
     } else return true;
   };
@@ -95,7 +98,7 @@ const Login = () => {
           />
           <button type="submit">Login</button>
           <span>
-            Don't have an account? <Link to="/register">Register</Link>
+            Come on buddy, tap this <Link to="/register">Register</Link>
           </span>
         </form>
       </FormContainer>

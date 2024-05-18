@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import loader from "../assets/loader.gif";
 import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,7 @@ import { Buffer } from "buffer";
 const SetAvatar = () => {
   const api = "https://api.multiavatar.com/45678945";
   // const privateApiKey = "?apikey=WPiVdK1rutb5Oj";
-  const privateApiKey = "";
+  const navigate = useNavigate();
 
   const myIcon = () => <span>🤨😞</span>;
   const toastEmitter = {
@@ -31,6 +31,15 @@ const SetAvatar = () => {
   const [loading, setLoading] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
 
+  // useEffect(() => {
+  //   const user = localStorage.getItem("luna user");
+  //   if (!user) {
+  //     navigate("/login");
+  //   } else {
+  //     console.log("User found in localStorage during mount:", user);
+  //   }
+  // }, [navigate]);
+
   useEffect(() => {
     const fetchData = async () => {
       const data = [];
@@ -48,6 +57,26 @@ const SetAvatar = () => {
 
     fetchData();
   }, []);
+
+  const setProfilePicture = async () => {
+    if (selectedAvatar === undefined) {
+      toast.error("Please select an avatar", toastEmitter);
+    } else {
+      const user = await JSON.parse(localStorage.getItem("luna user"));
+      const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+        image: avatars[selectedAvatar],
+      });
+
+      if (data.isSet) {
+        user.isAvatarImageSet = true;
+        user.avatarImage = data.image;
+        localStorage.setItem("luna user", JSON.stringify(user));
+        navigate("/");
+      } else {
+        toast.error("Error setting avatar. Please try again.", toastEmitter);
+      }
+    }
+  };
 
   return (
     <>
@@ -73,8 +102,11 @@ const SetAvatar = () => {
             );
           })}
         </div>
+        <button onClick={setProfilePicture} className="submit-btn">
+          Set as Profile Picture
+        </button>
+        <ToastContainer />
       </Container>
-      <ToastContainer />
     </>
   );
 };
@@ -121,6 +153,20 @@ const Container = styled.div`
     }
     .selected {
       border: 0.4rem solid #4e0eff;
+    }
+  }
+  .submit-btn {
+    background-color: #4e0eff;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4e0eff;
     }
   }
 `;

@@ -31,7 +31,7 @@ const Register = () => {
       if (data.status === false) toast(data.message, toastEmitter);
       if (data.status === true) {
         localStorage.setItem(" luna user", JSON.stringify(data.user));
-        navigate("/");
+        navigate("/setAvatar");
       }
     } else {
       console.log("Validation failed");

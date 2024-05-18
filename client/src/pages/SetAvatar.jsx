@@ -36,7 +36,7 @@ const SetAvatar = () => {
       const data = [];
       for (let i = 0; i < 4; i++) {
         const img = await axios.get(
-          `${api}/${Math.round(Math.random() * 1000)}`
+          `${api}/${Math.round(Math.random() * 1000)}?apikey=WPiVdK1rutb5Oj`
         );
         const buffer = new Buffer(img.data);
         data.push(buffer.toString("base64"));
@@ -59,22 +59,70 @@ const SetAvatar = () => {
           {avatars.map((avatar, index) => {
             return (
               <div
-                key={index}
                 className={`avatar ${
                   selectedAvatar === index ? "selected" : ""
                 }`}
-                onClick={() => setSelectedAvatar(index)}
               >
-                <img src={`data:image/svg+xml;base64,${avatar}`} alt="avatar" />
+                <img
+                  src={`data:image/svg+xml;base64,${avatar}`}
+                  alt="avatar"
+                  key={avatar}
+                  onClick={() => setSelectedAvatar(index)}
+                />
               </div>
             );
           })}
         </div>
       </Container>
+      <ToastContainer />
     </>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  background-color: #131324;
+  height: 100vh;
+  width: 100%;
+
+  .loader {
+    max-inline-size: 100%;
+  }
+
+  .title-container {
+    h1 {
+      color: white;
+    }
+  }
+
+  .avatars {
+    display: flex;
+    gap: 2rem;
+    .avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.4rem;
+      border: 0.4rem solid transparent;
+      border-radius: 5rem;
+      transition: 0.5s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        border: 0.4rem solid #3f3f3f;
+      }
+      img {
+        height: 6rem;
+        transition: 0.5s ease-in-out;
+      }
+    }
+    .selected {
+      border: 0.4rem solid #4e0eff;
+    }
+  }
+`;
 
 export default SetAvatar;

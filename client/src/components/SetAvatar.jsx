@@ -28,17 +28,20 @@ const SetAvatar = () => {
   };
 
   const [avatars, setAvatars] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
 
   useEffect(() => {
-    const checkLocalStorage = async () => {
-      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-        await navigate("/login");
+    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate("/login");
+    } else {
+      const user = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      if (user.isAvatarImageSet) {
+        navigate("/");
       }
-    };
-
-    checkLocalStorage();
+    }
   }, []);
 
   useEffect(() => {
@@ -86,33 +89,39 @@ const SetAvatar = () => {
 
   return (
     <>
-      <Container>
-        <div className="title-container">
-          <h1>Choose your Avatar</h1>
-        </div>
-        <div className="avatars">
-          {avatars.map((avatar, index) => {
-            return (
-              <div
-                className={`avatar ${
-                  selectedAvatar === index ? "selected" : ""
-                }`}
-              >
-                <img
-                  src={`data:image/svg+xml;base64,${avatar}`}
-                  alt="avatar"
-                  key={avatar}
-                  onClick={() => setSelectedAvatar(index)}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <button onClick={setProfilePicture} className="submit-btn">
-          Set as Profile Picture
-        </button>
-        <ToastContainer />
-      </Container>
+      {loading ? (
+        <Container>
+          <img src={loader} alt="loader" className="loader" />
+        </Container>
+      ) : (
+        <Container>
+          <div className="title-container">
+            <h1>Choose your Avatar</h1>
+          </div>
+          <div className="avatars">
+            {avatars.map((avatar, index) => {
+              return (
+                <div
+                  className={`avatar ${
+                    selectedAvatar === index ? "selected" : ""
+                  }`}
+                >
+                  <img
+                    src={`data:image/svg+xml;base64,${avatar}`}
+                    alt="avatar"
+                    key={avatar}
+                    onClick={() => setSelectedAvatar(index)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <button onClick={setProfilePicture} className="submit-btn">
+            Set as Profile Picture
+          </button>
+          <ToastContainer />
+        </Container>
+      )}
     </>
   );
 };

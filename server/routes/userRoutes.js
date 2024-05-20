@@ -1,9 +1,10 @@
-const { register, login, setAvatar } = require('../controller/userController')
+const { register, login, setAvatar, } = require('../controller/userController')
 
 const router = require('express').Router()
 
 router.post('/register', register)
 router.post('/login', login)
 router.post('/setavatar/:id', setAvatar)
+
 
 module.exports = router

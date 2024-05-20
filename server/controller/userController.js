@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password } = req.body
         const userCheck = await User.findOne({ username })
         if (userCheck)
             return res.json({ message: 'Username already exists', status: false })
@@ -15,10 +15,10 @@ module.exports.register = async (req, res, next) => {
         const user = await User.create({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         })
-        delete user.password
-        return res.json({ status: true, user })
+        const { password: _, ...userWithoutPassword } = user.toObject()
+        return res.json({ status: true, user: userWithoutPassword })
     } catch (err) {
         next(err)
     }
@@ -32,9 +32,9 @@ module.exports.login = async (req, res, next) => {
             return res.json({ message: 'Username not found', status: false })
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch)
-            return res.json({ message: 'Password is incorrect', status: false })
-        delete user.password
-        return res.json({ status: true, user })
+            return res.json({ message: 'Password Or Username error', status: false })
+        const { password: _, ...userWithoutPassword } = user.toObject()
+        return res.json({ status: true, user: userWithoutPassword })
     } catch (error) {
         next(error)
     }
@@ -42,8 +42,8 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.setAvatar = async (req, res, next) => {
     try {
-        const userId = req.params.id;
-        const avatarImage = req.body.image;
+        const userId = req.params.id
+        const avatarImage = req.body.image
         const userData = await User.findByIdAndUpdate(
             userId,
             {
@@ -51,12 +51,13 @@ module.exports.setAvatar = async (req, res, next) => {
                 avatarImage,
             },
             { new: true }
-        );
+        )
         return res.json({
             isSet: userData.isAvatarImageSet,
             image: userData.avatarImage,
-        });
+        })
     } catch (ex) {
         next(ex)
     }
-};
+}
+

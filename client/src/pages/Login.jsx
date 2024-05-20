@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../asssets/logo.svg";
+import Logo from "../assets/logo.svg";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -15,20 +15,24 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (localStorage.getItem(" luna user")) navigate("/");
+    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))
+      navigate("/");
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { username, email, password } = values;
+      const { username, password } = values;
       const { data } = await axios.post(loginRoute, {
         username,
         password,
       });
       if (data.status === false) toast(data.message, toastEmitter);
       if (data.status === true) {
-        localStorage.setItem(" luna user", JSON.stringify(data.user));
+        localStorage.setItem(
+          process.env.REACT_APP_LOCALHOST_KEY,
+          JSON.stringify(data.user)
+        );
         navigate("/");
       }
     } else {
@@ -53,10 +57,13 @@ const Login = () => {
   const handleValidation = () => {
     const { username, password } = values;
     if (username === "") {
-      toast("Username and Password is required", toastEmitter);
+      toast("Fam, aint u forgetting the Username and Password", toastEmitter);
       return false;
     } else if (password === "") {
-      toast("Username and Password is required", toastEmitter);
+      toast(
+        "Username and Password, I think, you missed my buddy ",
+        toastEmitter
+      );
       return false;
     } else return true;
   };
@@ -95,7 +102,7 @@ const Login = () => {
           />
           <button type="submit">Login</button>
           <span>
-            Don't have an account? <Link to="/register">Register</Link>
+            Come on buddy, tap this <Link to="/register">Register</Link>
           </span>
         </form>
       </FormContainer>

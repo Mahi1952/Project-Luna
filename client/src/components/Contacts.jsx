@@ -3,64 +3,60 @@ import styled from "styled-components";
 import logo from "../assets/logo.svg";
 
 const Contacts = ({ contacts, currentUser }) => {
-  const [currentUserName, setCurrentUserName] = useState(undefined);
-  const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
+  const [currentUserName, setCurrentUserName] = useState("");
+  const [currentUserAvatar, setCurrentUserAvatar] = useState("");
   const [currentChat, setCurrentChat] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser.username && currentUser.avatarImage) {
       setCurrentUserName(currentUser.username);
-      setCurrentUserAvatar(currentUser.avatar);
+      setCurrentUserAvatar(currentUser.avatarImage);
+      setIsLoading(false);
     }
   }, [currentUser]);
 
-  return (
-    <>
-      {currentUserAvatar && currentUserName && contacts.length > 0 && (
-        <Container>
-          <div className="brand">
-            <img src={logo} alt="logo" />
-            <h3>Luna</h3>
-          </div>
+  if (!isLoading)
+    return (
+      <Container>
+        <div className="brand">
+          <img src={logo} alt="logo" />
+          <h3>Luna</h3>
+        </div>
 
-          <div className="contacts">
-            {contacts.map((contact, index) => {
-              return (
-                <div
-                  className={`contact ${
-                    index === currentChat ? "selected" : ""
-                  }`}
-                  key={contact._id}
-                >
-                  <div className="avatar">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt="avatar"
-                    />
-                  </div>
-                  <div className="username">
-                    <h3>{contact.username}</h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <div className="contacts">
+          {contacts.map((contact, index) => (
+            <div
+              className={`contact ${index === currentChat ? "selected" : ""}`}
+              key={contact._id}
+              onClick={() => setCurrentChat(index)}
+            >
+              <div className="avatar">
+                <img
+                  src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                  alt="avatar"
+                />
+              </div>
+              <div className="username">
+                <h3>{contact.username}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="current-user">
-            <div className="avatar">
-              <img
-                src={`data:image/svg+xml;base64,${currentUserAvatar}`}
-                alt="avatar"
-              />
-            </div>
-            <div className="username">
-              <h2>{currentUserName}</h2>
-            </div>
+        <div className="current-user">
+          <div className="avatar">
+            <img
+              src={`data:image/svg+xml;base64,${currentUserAvatar}`}
+              alt="avatar"
+            />
           </div>
-        </Container>
-      )}
-    </>
-  );
+          <div className="username">
+            <h2>{currentUserName}</h2>
+          </div>
+        </div>
+      </Container>
+    );
 };
 
 const Container = styled.div`

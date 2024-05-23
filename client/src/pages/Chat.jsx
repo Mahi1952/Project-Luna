@@ -78,12 +78,18 @@ const Container = styled.div`
   background-color: #131324;
   height: 100vh;
   width: 100%;
+
   .container {
     height: 85vh;
     width: 85vw;
     display: grid;
     background-color: #00000076;
     grid-template-columns: 25% 75%;
+    border: 2px solid #4e0eff;
+    border-radius: 20px;
+    padding: 1rem;
+    box-sizing: border-box;
+
     @media screen and (min-width: 768px) {
       grid-template-columns: 30% 70%;
     }

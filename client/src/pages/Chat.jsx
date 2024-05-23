@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { allUsersRoute } from "../utils/APIRouters";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Chat = () => {
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentChat, setCurrentChat] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,6 +25,7 @@ const Chat = () => {
             localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
           )
         );
+        setIsLoading(false);
       }
     }
     fetchData();
@@ -55,7 +58,11 @@ const Chat = () => {
             currentUser={currentUser}
             changeChat={handleChatChange}
           />
-          <Welcome />
+          {!isLoading && currentChat === undefined ? (
+            <Welcome />
+          ) : (
+            <ChatContainer currentChat={currentChat} />
+          )}
         </div>
       </Container>
     </>
@@ -77,15 +84,17 @@ const Container = styled.div`
     display: grid;
     background-color: #00000076;
     grid-template-columns: 25% 75%;
-
-    @media screen and (max-width: 767px) {
-      grid-template-columns: 100%;
+    @media screen and (min-width: 768px) {
+      grid-template-columns: 30% 70%;
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
       grid-template-columns: 35% 65%;
     }
-    @media screen and (min-width: 1025px) {
-      grid-template-columns: 40% 60%;
+    @media screen and (min-width: 1440px) and (max-width: 2559px) {
+      grid-template-columns: 28% 72%;
+    }
+    @media screen and (min-width: 2560px) {
+      grid-template-columns: 22% 78%;
     }
   }
 `;

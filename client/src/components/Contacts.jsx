@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
 
-const Contacts = ({ contacts, currentUser }) => {
+const Contacts = ({ contacts, currentUser, changeChat }) => {
   const [currentUserName, setCurrentUserName] = useState("");
   const [currentUserAvatar, setCurrentUserAvatar] = useState("");
-  const [currentChat, setCurrentChat] = useState(undefined);
+  const [currentSelectedChat, setCurrentSelectedChat] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +15,11 @@ const Contacts = ({ contacts, currentUser }) => {
       setIsLoading(false);
     }
   }, [currentUser]);
+
+  const changeCurrentChat = (index, contact) => {
+    setCurrentSelectedChat(index);
+    changeChat(contact);
+  };
 
   if (!isLoading)
     return (
@@ -27,9 +32,11 @@ const Contacts = ({ contacts, currentUser }) => {
         <div className="contacts">
           {contacts.map((contact, index) => (
             <div
-              className={`contact ${index === currentChat ? "selected" : ""}`}
+              className={`contact ${
+                index === currentSelectedChat ? "selected" : ""
+              }`}
               key={contact._id}
-              onClick={() => setCurrentChat(index)}
+              onClick={() => changeCurrentChat(index, contact)}
             >
               <div className="avatar">
                 <img

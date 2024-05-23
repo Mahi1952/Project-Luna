@@ -42,7 +42,7 @@ const SetAvatar = () => {
         navigate("/");
       }
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {

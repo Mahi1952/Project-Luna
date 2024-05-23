@@ -173,7 +173,9 @@ const FormContainer = styled.div`
     background-color: #00000076;
     border-radius: 2rem;
     padding: 3rem 5rem;
-    input {
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
       background-color: transparent;
       padding: 1rem;
       border: 0.1rem solid #4e0eff;

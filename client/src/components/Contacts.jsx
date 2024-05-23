@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
+import Logout from "./Logout";
 
 const Contacts = ({ contacts, currentUser, changeChat }) => {
   const [currentUserName, setCurrentUserName] = useState(undefined);
@@ -62,13 +63,17 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
             <h2>{currentUserName}</h2>
           </div>
         </div>
+
+        <div className="logout">
+          <Logout currentUser={currentUser} />
+        </div>
       </Container>
     );
 };
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 10% 65% 15% 10%;
   overflow: hidden;
   background-color: #080420;
   .brand {
@@ -150,6 +155,12 @@ const Container = styled.div`
         }
       }
     }
+  }
+  .logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 `;
 

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import logo from "../assets/logo.svg";
 
 const Contacts = ({ contacts, currentUser, changeChat }) => {
-  const [currentUserName, setCurrentUserName] = useState("");
-  const [currentUserAvatar, setCurrentUserAvatar] = useState("");
+  const [currentUserName, setCurrentUserName] = useState(undefined);
+  const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
   const [currentSelectedChat, setCurrentSelectedChat] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 

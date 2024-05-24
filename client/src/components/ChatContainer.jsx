@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import ChatInput from "./ChatInput";
 
 const ChatContainer = ({ currentChat }) => {
+  const handleSendMsg = (msg) => {
+    console.log(msg);
+  };
   return (
     <>
       {currentChat && (
@@ -20,7 +24,7 @@ const ChatContainer = ({ currentChat }) => {
             </div>
           </div>
           <div className="chat-messages"></div>
-          <div className="chat-input"></div>
+          <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )}
     </>
